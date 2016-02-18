@@ -5,14 +5,14 @@ class Magnet{
   int yVal;
   public Magnet(int x, int y)
   {
-    magnet = createGraphics(50,20);
+    magnet = createGraphics(25,10);
     magnet.beginDraw();
       magnet.background(200);
       magnet.stroke(0);
       magnet.fill(255,0,0);
-      magnet.rect(0,0,25,20);
+      magnet.rect(0,0,12,100);
       magnet.fill(0,0,255);
-      magnet.rect(25,0,25,20);
+      magnet.rect(12,0,12,10);
     magnet.endDraw(); 
     xVal = x;
     yVal = y;
@@ -27,6 +27,7 @@ class Magnet{
   void update()
   {
     image(magnet, xVal,yVal); 
+    xVal = xVal - 2;
   }
   
 }

@@ -7,12 +7,9 @@ boolean jump = false;
 boolean up = false;
 int counter = 0;
 
-ArrayList<Integer> platformX = new ArrayList<Integer>();
-ArrayList<Integer> platformY = new ArrayList<Integer>();
-ArrayList<Integer> platformWidth = new ArrayList<Integer>();
 
 
-Fire fireList[] = new Fire[50];
+Magnet magnetList[] = new Magnet[10];
 
 void setup()
 {
@@ -20,25 +17,15 @@ void setup()
  background(#EBEBEB);
  diskette = loadImage("Diskette.png");
  
- //platform 1
- platformX.add(150);
- platformY.add(625);
- platformWidth.add(100);
+  
+  
+ int x = 900;
+ int y = 725;
  
- //platform 2
- platformX.add(250);
- platformY.add(500);
- platformWidth.add(250);
- 
- m = new Magnet(50,50);
- 
- int x = 1500;
- int y = 700;
- 
- for(int i = 0; i < fireList.length; i++)
+ for(int i = 0; i < magnetList.length; i++)
  {
-    fireList[i] = new Fire (x,y);
-    x += 20;
+    magnetList[i] = new Magnet (x,y);
+    x += 200;
     y += (int)random(-20,20);
  }
  
@@ -50,34 +37,25 @@ void draw()
   background(#EBEBEB);
  
  
- for(int i = 0; i < fireList.length; i++)
+ for(int i = 0; i < magnetList.length; i++)
  {
-    fireList[i].update();
+    magnetList[i].update();
    
  }
   
-   m.update(); 
+  
   fill(#CD5C5C);
   rect(0,750,1023,114);
-  platforms();
   updateDiskette();
   
 } 
-void platforms()
-{
-  for(int i = 0; i<platformX.size(); i++)
-  {
-   rect(platformX.get(i),platformY.get(i),platformWidth.get(i),40); 
-  }
- 
-}
+
 void updateDiskette()
 {
   if(jump)
   {
     if(up)
     {
-      x+=1.5*(counter+5);
       y-=3*counter*counter;
       counter++;
       if (counter==0)
@@ -87,7 +65,6 @@ void updateDiskette()
     }
     else //if(!onPlatform())
     {
-      x+=1.5*(counter+5);
       y+=3*counter*counter;
       counter++;
       if(counter==6)
