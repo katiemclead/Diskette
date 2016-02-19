@@ -30,4 +30,15 @@ class Magnet{
     xVal = xVal - 2;
   }
   
+  
+ float getXVal()
+ {
+   return xVal;
+ }
+ 
+ float getYVal()
+ {
+  return yVal; 
+ }
+  
 }
