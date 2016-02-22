@@ -1,117 +1,63 @@
-PImage diskette;
-PImage world1;
-Magnet m;
-float rot = 0.0;
-float x = 382;
-float y = 580;
-boolean jump = false;
-boolean up = false;
-int counter = 0;
-int worldX;
-
-boolean start;
-
-Magnet magnetList[] = new Magnet[10];
-
-void setup()
+class Diskette
 {
- size(1024,764); 
- background(#EBEBEB);
- diskette = loadImage("Diskette.png");
- world1 = loadImage("DisketteWorld.png");
-  
-  start = false;
-  
- int x = 900;
- int y = 625 ;
- worldX = 0;
+ PImage standing; 
+ PImage[] walking;
+ int xPos;
+ int yPos;
+ boolean still;
+ int step;
  
- for(int i = 0; i < magnetList.length; i++)
+ public Diskette(int x, int y)
  {
-    magnetList[i] = new Magnet (x,y);
-    x += 200;
-    y += (int)random(-10,10);
+  xPos = x;
+  yPos = y;
+  standing = loadImage("StandingStill.png");
+  walking = new PImage[4];
+  walking[0] = loadImage("Walking1.png");
+  walking[1] = loadImage("Walking2.png");
+  walking[2] = loadImage("Walking3.png");
+  walking[3] = loadImage("Walking4.png");
+  still = true;
+  step = 0;
+  
  }
  
  
-}
-
-void draw()
-{
-  //here is my background!
- image(world1,0,0,width, height,worldX,0,width,height);
- //worldX+=5;
-
- if(start)
+ void draw()
  {
- for(int i = 0; i < magnetList.length; i++)
+   if(still)
+   {
+     image(standing, xPos,yPos); 
+   }
+   else
+   {
+    image(walking[step],xPos,yPos); 
+   }
+ }
+ 
+ void move(int x)
  {
-    magnetList[i].update();
+   still = false;
    
- }
- }
-  
-  fill(#CD5C5C);
-  rect(0,650,1023,114);
-  updateDiskette();
-  
-} 
-
-void updateDiskette()
-{
-  for(int i = 0; i < magnetList.length; i++)
- {
-    if(magnetList[i].getXVal() < x + 50 && magnetList[i].getXVal() > x  && magnetList[i].getYVal() > y && magnetList[i].getYVal() < y + 50)
-    {
-     print("collision!"); 
-    }
-   
- }
-  if(jump)
+  if(x == 1)
   {
-    if(up)
-    {
-      y-=3;
-      counter++;
-      if (counter==0)
-        {
-         up=false; 
-         counter = -40;
-        }
-    }
-    else //if(!onPlatform())
-    {
-      y+=3;
-      counter++;
-      if(counter==0)
-      {
-       jump = false; 
-      }
-    }
+   xPos += 4;
   }
-  
-  image(diskette,x,y);  
-}
-void keyPressed()
-{
- if (keyCode==RIGHT)
- {
-   x+=4;
- }
- else if(keyCode==LEFT)
- {
-  x-=4; 
- }
- else if(key==' '&&!jump)
- {
-  jump = true;
-  up = true;
-  counter = -40;
+  else
+  {
+   xPos -= 4; 
+  }
+  step++;
+  if(step == 4)
+  {
+   step = 0; 
+  }
  }
  
-}
-
-void mouseClicked()
-{
- start = true; 
+ void beStill()
+ {
+  still = true; 
+ }
+ 
+ 
 }

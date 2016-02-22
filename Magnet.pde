@@ -3,6 +3,7 @@ class Magnet{
   PGraphics magnet;
   int xVal;
   int yVal;
+  
   public Magnet(int x, int y)
   {
     magnet = createGraphics(25,10);
@@ -30,15 +31,17 @@ class Magnet{
     xVal = xVal - 2;
   }
   
+  int getXVal()
+  {
+   return xVal; 
+  }
   
- float getXVal()
- {
-   return xVal;
- }
- 
- float getYVal()
- {
-  return yVal; 
- }
+  
+    int getYVal()
+  {
+   return yVal; 
+  }
+  
+
   
 }
