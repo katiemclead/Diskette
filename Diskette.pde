@@ -6,6 +6,12 @@ class Diskette
  int yPos;
  boolean still;
  int step;
+ int counter;
+
+ 
+ //jumping variables
+  boolean up;
+  boolean down;
  
  public Diskette(int x, int y)
  {
@@ -19,7 +25,12 @@ class Diskette
   walking[3] = loadImage("Walking4.png");
   still = true;
   step = 0;
+
   
+  //jumping variables
+  up = false;
+  down = false;
+  counter = 0;
  }
  
  
@@ -31,33 +42,70 @@ class Diskette
    }
    else
    {
-    image(walking[step],xPos,yPos); 
+    image(walking[step%4],xPos,yPos); 
+    step++;
+    if(step==20)
+    step = 0;
    }
  }
  
- void move(int x)
+ void jump()
  {
-   still = false;
    
-  if(x == 1)
-  {
-   xPos += 4;
-  }
-  else
-  {
-   xPos -= 4; 
-  }
-  step++;
-  if(step == 4)
-  {
-   step = 0; 
-  }
+   //check to see if I'm already jumping
+   if(!up && !down)
+   {
+     up = true;
+     counter = 0;
+   }
+   
+   //check to see if I'm on my way up and keep going up
+   if(up)
+   {
+     yPos--;
+     counter++;
+     
+     //check to see if counter is at max
+     if(counter == 100)
+     {
+      up = false;
+      down = true;
+     }
+   }
+   else  //on the way down
+   {
+      yPos++;
+     counter--;
+     
+     //check to see if counter is at max
+     if(counter == 0)
+     {
+      down = false;
+     }
+   }
  }
  
- void beStill()
+ boolean getJump()
  {
+  return up || down; 
+ }
+  
+ void beStill(boolean state)
+ {
+   if(state)
   still = true; 
+  else
+  still = false;
  }
  
  
+ int getX()
+ {
+  return xPos ;
+ }
+ 
+  int getY()
+ {
+  return yPos ;
+ }
 }

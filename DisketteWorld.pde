@@ -5,7 +5,7 @@ float x = 382;
 float y = 580;
 boolean jump = false;
 boolean up = false;
-int counter = 0;
+
 
 boolean start;
 int worldX;
@@ -21,11 +21,10 @@ void setup()
 
  
  int x = 900;
- int y = 625 ;
+ int y = 675 ;
  start = false;
  worldX = 0;
- frameRate(12);
-
+ 
  
  for(int i = 0; i < magnetList.length; i++)
  {
@@ -50,70 +49,59 @@ void draw()
    magnetList[i].update();
    
  }
+  updateDiskette();
  }
    
-  diskette.draw();
+ 
   
 } 
 
 void updateDiskette()
 {
 
+  diskette.draw();
+  
+  
  
   if(jump)
   {
-    if(up)
-    {
-      y-=3;
-      counter++;
-      if (counter==0)
-        {
-         up=false; 
-         counter = -50;
-        }
-    }
-    else //if(!onPlatform())
-    {
-      y+=3;
-      counter++;
-      if(counter==0)
-      {
-       jump = false; 
-      }
-    }
+   diskette.jump(); 
   }
+  jump = diskette.getJump();
+
   
   
    for(int i = 0; i < magnetList.length; i++)
   {
-   if(magnetList[i].getXVal() > x && magnetList[i].getXVal() < x + 90 && magnetList[i].getYVal() > y && magnetList[i].getYVal() < y + 90 )
+   if(magnetList[i].getXVal() > diskette.getX() && magnetList[i].getXVal() < diskette.getX() + 90 && magnetList[i].getYVal() > diskette.getY() && magnetList[i].getYVal() < diskette.getY() + 90 )
    {
     start = false;
    }
   }
 }
+
+
 void keyPressed()
 {
  if (keyCode==RIGHT)
  {
-   diskette.move(1);
+   diskette.beStill(false);
  }
  else if(keyCode==LEFT)
  {
-  diskette.move(-1); 
+  diskette.beStill(false); 
  }
  if(key==' '&&!jump)
  {
   jump = true;
-  up = true;
-  counter = -50;
- }
+
+  }
  
 }
 
 void keyReleased()
 {
- diskette.beStill(); 
+ diskette.beStill(true); 
 }
 
 void mouseClicked()
