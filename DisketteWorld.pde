@@ -5,12 +5,14 @@ float x = 382;
 float y = 580;
 boolean jump = false;
 boolean up = false;
-
+int gravity;
 
 boolean start;
 int worldX;
 
 Magnet magnetList[] = new Magnet[10];
+
+Platform platformList[] = new Platform[10];
 
 void setup()
 {
@@ -18,7 +20,7 @@ void setup()
  background(#EBEBEB);
  diskette = new Diskette(475,625);
 
-
+gravity = 625;
  
  int x = 900;
  int y = 675 ;
@@ -33,6 +35,14 @@ void setup()
     y += (int)random(-10,10);
  }
  
+ x = width;
+ y = 650;
+ for(int i = 0; i < platformList.length; i++)
+ {
+    platformList[i] = new Platform (x,y);
+    x += (int)random(130,180);
+    y += (int)random(-30,90);
+ }
  
 }
 
@@ -44,9 +54,19 @@ void draw()
   if(start)
  {
   
- for(int i = 0; i < magnetList.length; i++)
+ //for(int i = 0; i < magnetList.length; i++)
+ //{
+ //  magnetList[i].update();
+   
+ //}
+ gravity = 675;
+ for(int i = 0; i <platformList.length; i++)
  {
-   magnetList[i].update();
+   platformList[i].update();
+   if(platformList[i].getXCoor() <diskette.getX() && platformList[i].getXCoor() + 20 > diskette.getX())
+   {
+    gravity = platformList[i].getYCoor() - 80; 
+   }
    
  }
   updateDiskette();
@@ -67,6 +87,10 @@ void updateDiskette()
   {
    diskette.jump(); 
   }
+  else
+  {
+   diskette.gravity(gravity); //brings Diskette down if not jumping 
+  }
   jump = diskette.getJump();
 
   
@@ -86,10 +110,20 @@ void keyPressed()
  if (keyCode==RIGHT)
  {
    diskette.beStill(false);
+    for(int i = 0; i <platformList.length; i++)
+ {
+   platformList[i].setXCoor(platformList[i].getXCoor() - 1);
+   
+ }
  }
  else if(keyCode==LEFT)
  {
   diskette.beStill(false); 
+   for(int i = 0; i <platformList.length; i++)
+ {
+   platformList[i].setXCoor(platformList[i].getXCoor() + 1);
+   
+ }
  }
  if(key==' '&&!jump)
  {

@@ -8,10 +8,11 @@ class Diskette
  int step;
  int counter;
 
+
  
  //jumping variables
   boolean up;
-  boolean down;
+ // boolean down;
  
  public Diskette(int x, int y)
  {
@@ -25,11 +26,12 @@ class Diskette
   walking[3] = loadImage("Walking4.png");
   still = true;
   step = 0;
+ // frameRate(6);
 
   
   //jumping variables
   up = false;
-  down = false;
+ // down = false;
   counter = 0;
  }
  
@@ -53,7 +55,7 @@ class Diskette
  {
    
    //check to see if I'm already jumping
-   if(!up && !down)
+   if(!up )
    {
      up = true;
      counter = 0;
@@ -66,28 +68,37 @@ class Diskette
      counter++;
      
      //check to see if counter is at max
-     if(counter == 100)
+     if(counter == 150)
      {
       up = false;
-      down = true;
+     // down = true;
      }
    }
-   else  //on the way down
-   {
-      yPos++;
-     counter--;
+   
+   //MOVING THIS CODE TO GRAVITY
+   //else  //on the way down
+   //{
+   //   yPos++;
+   //  counter--;
      
-     //check to see if counter is at max
-     if(counter == 0)
-     {
-      down = false;
-     }
-   }
+   //  //check to see if counter is at max
+   //  if(counter == 0)
+   //  {
+   //   down = false;
+   //  }
+   //}
  }
  
+ void gravity(int y) //moves Diskette down
+ {
+   if(yPos < y)
+   {
+    yPos++; 
+   }
+ }
  boolean getJump()
  {
-  return up || down; 
+  return up; 
  }
   
  void beStill(boolean state)
